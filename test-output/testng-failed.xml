@@ -7,7 +7,6 @@
         <methods>
           <include name="setup"/>
           <include name="checkQitafLogoAvailability"/>
-          <include name="SARCurrency"/>
         </methods>
       </class> <!-- Tests -->
     </classes>
