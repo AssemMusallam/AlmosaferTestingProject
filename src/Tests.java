@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Random;
 
 import org.checkerframework.checker.units.qual.s;
@@ -8,7 +9,9 @@ import org.openqa.selenium.By.ById;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import dev.failsafe.internal.util.Assert;
@@ -136,12 +139,42 @@ public class Tests {
 		WebElement SelectRooms = driver
 				.findElement(By.xpath("//select[@data-testid = 'HotelSearchBox__ReservationSelect_Select']"));
 		Select Selector = new Select(SelectRooms);
-		
+
 		int randomIndex = rand.nextInt(2);
 		Selector.selectByIndex(randomIndex);
 
-		driver.findElement(By.xpath("//button = [@data=testid='HotelSearchBox__SearchButton']"));
-		
+		WebElement searchButton = driver.findElement(By.xpath("//button[@data=testid='HotelSearchBox__SearchButton']"));
+		searchButton.click();
+
 	}
+	
+	@Test(priority = 10)
+	public void checkPageIfFullyLoaded() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+		
+		WebElement resultsTab = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[@data-testid='HotelSearchResult__resultsFoundCount']")));
+		
+		org.testng.Assert.assertEquals(resultsTab.getText().contains("found")||resultsTab.getText().contains("وجدنا"),true);)
+
+	}
+	
+	
+	@Test(priority = 12)
+	public void sortItems() throws InterruptedException {
+		WebElement LowestPriceButton = driver.findElement(By.id("//button[@data-testid='HotelSearchResult__sort__LOWEST_PRICE']"));
+		LowestPriceButton.click();
+		
+		Thread.sleep(2000);
+		
+		WebElement pricesContainer = driver.findElement(By.cssSelector(".sc-htpNat.KtFsv.col-9"));
+		
+		List<WebElement> prices = pricesContainer.findElements(By.className("Price__Value"));
+		
+		int firstPrice = Integer.parseInt( prices.get(0).getText());
+		
+		int lastPrice = Integer.parseInt(prices.get(prices.size()-1).getText());
+		
+		org.testng.Assert.assertEquals(firstPrice<lastPrice, true);
+		}
 
 }

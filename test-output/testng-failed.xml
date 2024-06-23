@@ -6,7 +6,8 @@
       <class name="Tests">
         <methods>
           <include name="setup"/>
-          <include name="checkQitafLogoAvailability"/>
+          <include name="checkPageIfFullyLoaded"/>
+          <include name="SelectNumberOfPeople"/>
         </methods>
       </class> <!-- Tests -->
     </classes>
