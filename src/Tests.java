@@ -17,15 +17,7 @@ import org.testng.annotations.Test;
 import dev.failsafe.internal.util.Assert;
 
 public class Tests {
-	WebDriver driver = new ChromeDriver();
-	String url = "https://global.almosafer.com/en";
-	String expectedEnLanguage = "en";
-	String expectedArLanguage = "ar";
-	String expectedCurrency = "SAR";
-	boolean expectedQitafLogo = true;
-	String expectedContactNumber = "+966554400000";
-	boolean expectedQitafLogoIsAvailable = true;
-	Random rand = new Random();
+
 
 	@BeforeTest
 	public void setup() {
